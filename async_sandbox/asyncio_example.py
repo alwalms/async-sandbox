@@ -7,6 +7,7 @@ as the tasks are progressed because the sync_calc function is blocking everythin
 import asyncio
 import time
 
+
 def sync_calc(num) -> int:
     """
     This function will block other functions from running in async because of time.sleep()
@@ -14,7 +15,7 @@ def sync_calc(num) -> int:
     print(f"start sync_calc - input is {num}")
 
     time.sleep(2)
-    output = num **2
+    output = num**2
 
     print(f"end sync_calc - output is {output}")
     return output
@@ -26,8 +27,10 @@ async def async_calc(num) -> int:
     """
     print(f"start async_calc - input is {num}")
 
-    await asyncio.sleep(2) # change to time.sleep(2) to see it blocking the whole coroutine
-    output = num **2
+    await asyncio.sleep(
+        2
+    )  # change to time.sleep(2) to see it blocking the whole coroutine
+    output = num**2
 
     print(f"end async_calc - output is {output}")
     return output
@@ -52,7 +55,7 @@ async def async_example(num) -> str:
 async def main():
     start = time.perf_counter()
 
-    tasks = [async_example(i) for i in range(1,6)]
+    tasks = [async_example(i) for i in range(1, 6)]
     await asyncio.gather(*tasks)
 
     end = time.perf_counter()

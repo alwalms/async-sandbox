@@ -7,17 +7,24 @@ import asyncio
 import backoff
 import time
 
-def backoff_handler(details):
-    print ("Backing off {wait:0.1f} seconds after {tries} tries "
-           "calling function {target} with args {args} and kwargs "
-           "{kwargs}".format(**details))
 
-@backoff.on_predicate(backoff.expo, lambda x: x < 2, max_tries=5, on_backoff=backoff_handler)
+def backoff_handler(details):
+    print(
+        "Backing off {wait:0.1f} seconds after {tries} tries "
+        "calling function {target} with args {args} and kwargs "
+        "{kwargs}".format(**details)
+    )
+
+
+@backoff.on_predicate(
+    backoff.expo, lambda x: x < 2, max_tries=5, on_backoff=backoff_handler
+)
 async def async_backoff(num):
     print(f"start async_backoff - input is {num}")
     output = num**2
     print(f"end async_backoff - output is {output}")
     return output
+
 
 async def async_example(num):
     start = time.perf_counter()
@@ -30,7 +37,7 @@ async def async_example(num):
 
 
 async def main():
-    tasks = [async_example(i) for i in range(1,3)]
+    tasks = [async_example(i) for i in range(1, 3)]
     await asyncio.gather(*tasks)
 
 
