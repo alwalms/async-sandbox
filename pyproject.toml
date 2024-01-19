@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "async-sandbox"
+version = "0.1.0"
+description = "Playing with asyncio and other python libs in the async space"
+authors = ["Alex Walmsley <alex.walmsley@signal-ai.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+asyncio = "^3.4.3"
+backoff = "^2.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
