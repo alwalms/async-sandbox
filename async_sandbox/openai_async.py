@@ -55,13 +55,13 @@ async def call_api(num):
 
     return response
 
+
 def batch_tasks(tasks, batch_size):
-    for i in range(0, len(tasks), batch_size):  
-        yield tasks[i:i + batch_size] 
+    for i in range(0, len(tasks), batch_size):
+        yield tasks[i : i + batch_size]
 
 
 async def main():
-
     loop_count = 1
 
     # OpenAI throttled when sending a batch of more than 100 requests at once
