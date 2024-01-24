@@ -9,6 +9,7 @@ import asyncio
 import backoff
 import openai
 import os
+import time
 
 client = openai.AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
@@ -54,10 +55,34 @@ async def call_api(num):
 
     return response
 
+def batch_tasks(tasks, batch_size):
+    for i in range(0, len(tasks), batch_size):  
+        yield tasks[i:i + batch_size] 
+
 
 async def main():
-    tasks = [call_api(i) for i in range(0, 3)]
-    await asyncio.gather(*tasks)
+
+    loop_count = 1
+
+    # OpenAI throttled when sending a batch of more than 100 requests at once
+    batch_size = 5
+
+    tasks = [call_api(i) for i in range(0, 10)]
+    print(f"Batching requests for {len(tasks)} tasks")
+
+    print(batch_tasks(tasks, batch_size))
+
+    for batch in batch_tasks(tasks, batch_size):
+        start = time.perf_counter()
+
+        print(f"Calling API for batch {loop_count} with {len(batch)} tasks")
+        await asyncio.gather(*batch)
+
+        end = time.perf_counter()
+
+        print(f"Finished batch {loop_count} in {'{0:2f}'.format(end-start)}s")
+
+        loop_count += 1
 
 
 if __name__ == "__main__":

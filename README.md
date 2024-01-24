@@ -10,6 +10,9 @@ poetry install
 
 ## Usage
 
+Set the OPENAI_API_KEY environment variable with your API key
+
+Run the following
 ```
 poetry run python async_sandbox/asyncio_example.py
 ```
